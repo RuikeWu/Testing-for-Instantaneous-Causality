@@ -1,4 +1,4 @@
-function [h_opt,c_opt,j_opt] = cv_for_band_bt(cov_x_set,T)
+function [h_opt,c_opt,j_opt] = cv_for_band_bt(cov_x_set,T,p)
     
     j_set = 1:30; 
     c_set = 1.05.^(j_set-15); 
@@ -8,13 +8,13 @@ function [h_opt,c_opt,j_opt] = cv_for_band_bt(cov_x_set,T)
         h0 = h_set(jj);
         tau_x_set = [];
         s_set = 1:T;
-        for  x = 2 :T
+        for  x = p+1 :T
             ker_set = kernel(T,x,s_set,h0);
             ker_set(x) = 0; % leave-one-out estimator         
-            ker_set(1) =[];
+            ker_set(1:p) =[];
             hat_tau_x_set = ker_set.*cov_x_set;
             hat_tau_x = sum(hat_tau_x_set)/sum(ker_set);
-            tau_x_set(x-1)= hat_tau_x;
+            tau_x_set(x-p)= hat_tau_x;
         end  
         CV_set(jj) =  sum((cov_x_set - tau_x_set).^2); 
     end

@@ -64,7 +64,7 @@ function [pval,J_T,ifa] = Test_inst_causal_by_npbs_cv(Y,p,B,d_1,cf)
         end
         
         % using cross-validation to select bandwidth
-        h = cv_for_band_bt(cov_i_set,T);
+        h = cv_for_band_bt(cov_i_set,T,p);
         
         
         % obtain lambda_hat phi_hat and J_T
@@ -87,7 +87,7 @@ function [pval,J_T,ifa] = Test_inst_causal_by_npbs_cv(Y,p,B,d_1,cf)
     
     
     %Calculate J_T
-    h = cv_for_band_bt(cov_x_set,T);    
+    h = cv_for_band_bt(cov_x_set,T,p);    
     m_hat = [];
     d_2 = d -d_1; % dimension of u2
     for i = 1: size(u_hat,2)
